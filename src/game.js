@@ -1,12 +1,15 @@
 import React from 'react';
 import './index.css';
 import Board from './board';
+import Positions from './positions';
+import GameState from './gameState';
 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             currentPlayer: 'X',
+            state: GameState.ON_GOING,
             squares: Array(9).fill("")
         };
     }
@@ -16,9 +19,21 @@ export default class Game extends React.Component {
         if (squares[position] !== "") {
             return;
         }
-        squares[position] = this.state.currentPlayer;
+        const currentPlayer = this.state.currentPlayer; 
+        squares[position] = currentPlayer;
+        const winningCombination = [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST];
+        const playerWon = winningCombination.every((position) => {
+            return squares[position] === this.state.currentPlayer;
+        });
+        let state = GameState.ON_GOING;
+        if (playerWon) {
+            state = currentPlayer === 'X'
+                    ? GameState.X_WON
+                    : GameState.O_WON;
+        }
         this.setState({
             currentPlayer: this.nextPlayer(),
+            state: state,
             squares: squares
         });
     }

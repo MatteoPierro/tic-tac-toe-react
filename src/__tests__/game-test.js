@@ -2,6 +2,7 @@ import React from 'react';
 import Game from '../game';
 import Board from '../board';
 import Positions from '../positions';
+import GameState from '../gameState';
 import enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 enzyme.configure({ adapter: new Adapter() });
@@ -47,6 +48,18 @@ describe('Game', () => {
         const squares = game.state().squares;
 
         expect(squares[Positions.NORTH_WEST]).toBe('X');
+    });
+
+    it('should say that X wins when takes NW, NM, NE', () => {
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.CENTER_WEST);
+        takeSquare(Positions.NORTH_MIDDLE);
+        takeSquare(Positions.CENTER_MIDDLE);
+        takeSquare(Positions.NORTH_EAST);
+
+        const state = game.state().state; 
+
+        expect(state).toBe(GameState.X_WON);
     });
 
     it('should notify the player to the Board', () => {
