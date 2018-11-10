@@ -13,6 +13,9 @@ export default class Game extends React.Component {
 
     takeSquare(position) {
         const squares = this.state.squares;
+        if (squares[position] !== "") {
+            return;
+        }
         squares[position] = this.state.currentPlayer;
         this.setState({
             currentPlayer: this.nextPlayer(),
@@ -30,7 +33,7 @@ export default class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board 
+                    <Board
                         player={this.state.currentPlayer}
                         squares={this.state.squares}
                         onSquareTaken={this.takeSquare.bind(this)}

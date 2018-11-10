@@ -18,14 +18,14 @@ describe('Game', () => {
     });
 
     it('should allow O to play after X', () => {
-        takeSquare();
+        takeSquare(Positions.NORTH_WEST);
 
         assertCurrentPlayer('O');
     });
 
     it('should alternate players', () => {
-        takeSquare();
-        takeSquare();
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.NORTH_MIDDLE);
 
         assertCurrentPlayer('X');
     });
@@ -38,6 +38,15 @@ describe('Game', () => {
 
         expect(squares[Positions.NORTH_WEST]).toBe('X');
         expect(squares[Positions.NORTH_MIDDLE]).toBe('O');
+    });
+
+    it('should not assign an occupied square', () => {
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.NORTH_WEST);
+
+        const squares = game.state().squares;
+
+        expect(squares[Positions.NORTH_WEST]).toBe('X');
     });
 
     it('should notify the player to the Board', () => {
