@@ -9,6 +9,13 @@ export default class Game extends React.Component {
             currentPlayer: 'X'
         };
     }
+
+    takeSquare() {
+        this.setState({
+            currentPlayer: 'O'
+        });
+    }
+
     render() {
         return (
             <div className="game">

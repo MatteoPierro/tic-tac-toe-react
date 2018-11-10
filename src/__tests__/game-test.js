@@ -19,5 +19,13 @@ describe('Game', () => {
 
         expect(board.props().player).toBe('X')
     });
+
+    it('should allow O to play after X', () => {
+        const game = shallow(<Game />);
+
+        game.instance().takeSquare();
+
+        expect(game.state().currentPlayer).toBe('O');
+    });
 });
 
