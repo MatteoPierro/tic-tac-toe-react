@@ -35,6 +35,12 @@ describe('Game', () => {
         expect(board.props().player).toBe('X')
     });
 
+    it('should create a Board which handle squares', () => {
+        const board = game.find(Board);
+
+        expect(board.props().onSquareTaken).toBe(game.instance().takeSquare)
+    });
+
     function takeSquare() {
         game.instance().takeSquare();
     }

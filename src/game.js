@@ -26,7 +26,10 @@ export default class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board player={this.state.currentPlayer} />
+                    <Board 
+                        player={this.state.currentPlayer} 
+                        onSquareTaken={this.takeSquare}
+                    />
                 </div>
             </div>
         );
