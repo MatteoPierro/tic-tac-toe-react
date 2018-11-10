@@ -28,7 +28,7 @@ export default class Game extends React.Component {
                 <div className="game-board">
                     <Board 
                         player={this.state.currentPlayer} 
-                        onSquareTaken={this.takeSquare}
+                        onSquareTaken={this.takeSquare.bind(this)}
                     />
                 </div>
             </div>

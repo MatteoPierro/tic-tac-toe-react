@@ -36,9 +36,14 @@ describe('Game', () => {
     });
 
     it('should create a Board which handle squares', () => {
-        const board = game.find(Board);
+        const takeSquare = jest.fn();
+        game.instance().takeSquare = takeSquare;
+        game.instance().forceUpdate();
 
-        expect(board.props().onSquareTaken).toBe(game.instance().takeSquare)
+        const board = game.find(Board);
+        board.props().onSquareTaken();
+
+        expect(takeSquare.mock.calls.length).toBe(1)
     });
 
     function takeSquare() {
