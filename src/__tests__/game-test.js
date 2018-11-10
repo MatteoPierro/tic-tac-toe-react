@@ -27,5 +27,14 @@ describe('Game', () => {
 
         expect(game.state().currentPlayer).toBe('O');
     });
+
+    it('should alternate players', () => {
+        const game = shallow(<Game />);
+
+        game.instance().takeSquare();
+        game.instance().takeSquare();
+
+        expect(game.state().currentPlayer).toBe('X');
+    });
 });
 
