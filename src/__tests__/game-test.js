@@ -12,14 +12,6 @@ describe('Game', () => {
         expect(game.state().currentPlayer).toBe('X');
     });
 
-    it('should diplay that the first player is X', () => {
-        const game = shallow(<Game />);
-        
-        const board = game.find(Board);
-
-        expect(board.props().player).toBe('X')
-    });
-
     it('should allow O to play after X', () => {
         const game = shallow(<Game />);
 
@@ -35,6 +27,14 @@ describe('Game', () => {
         game.instance().takeSquare();
 
         expect(game.state().currentPlayer).toBe('X');
+    });
+
+    it('should notify the player to the Board', () => {
+        const game = shallow(<Game />);
+        
+        const board = game.find(Board);
+
+        expect(board.props().player).toBe('X')
     });
 });
 
