@@ -8,7 +8,7 @@ export default class Board extends React.Component {
     }
 
     render() {
-        const status = 'Next player: ?';
+        const status = `Next Player: ${this.props.player}`;
 
         return (
             <div>
