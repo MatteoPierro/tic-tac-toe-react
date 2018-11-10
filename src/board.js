@@ -7,6 +7,7 @@ export default class Board extends React.Component {
     addSquare(position) {
         return <Square
                     position={position}
+                    owner={this.props.squares[position]}
                     onClick={this.props.onSquareTaken}
                 />;
     }

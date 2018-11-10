@@ -4,15 +4,20 @@ import Position from '../positions';
 import Square from '../square';
 import enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import positions from '../positions';
 enzyme.configure({ adapter: new Adapter() });
 
 describe('Board', () => {
     let board;
-    let onSquareTaken
+    let onSquareTaken;
 
     beforeEach(() => {
+        const squares = Array(9).fill("");
         onSquareTaken = jest.fn();
-        board = shallow(<Board player='X' onSquareTaken={onSquareTaken}/>);
+        board = shallow(<Board 
+            player='X'
+            squares={squares} 
+            onSquareTaken={onSquareTaken}/>);
     });
 
     it('should display the next player', () => {
@@ -31,5 +36,14 @@ describe('Board', () => {
         const square = board.find(Square).first();
 
         expect(square.props().position).toBe(Position.NORTH_WEST);
+    });
+
+    it('should create Squares with an owner', () => {
+        const player = 'X';
+        board.instance().props.squares[positions.NORTH_WEST] = player;
+        board.instance().forceUpdate();
+
+        const square = board.find(Square).first();
+        expect(square.props().owner).toBe(player);
     });
 });
