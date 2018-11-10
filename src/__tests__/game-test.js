@@ -31,13 +31,13 @@ describe('Game', () => {
     });
 
     it('should assign a square to a player', () => {
-        takeSquare(Positions.NORD_WEST);
-        takeSquare(Positions.NORD_MIDDLE);
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.NORTH_MIDDLE);
 
         const squares = game.state().squares;
 
-        expect(squares[Positions.NORD_WEST]).toBe('X');
-        expect(squares[Positions.NORD_MIDDLE]).toBe('O');
+        expect(squares[Positions.NORTH_WEST]).toBe('X');
+        expect(squares[Positions.NORTH_MIDDLE]).toBe('O');
     });
 
     it('should notify the player to the Board', () => {
