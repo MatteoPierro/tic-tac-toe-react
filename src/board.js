@@ -2,18 +2,30 @@ import React from 'react';
 import './index.css';
 import Square from './square';
 import Positions from './positions';
+import GameState from './gameState';
 
 export default class Board extends React.Component {
     addSquare(position) {
         return <Square
-                    position={position}
-                    owner={this.props.squares[position]}
-                    onClick={this.props.onSquareTaken}
-                />;
+            position={position}
+            owner={this.props.squares[position]}
+            onClick={this.props.onSquareTaken}
+        />;
     }
 
     render() {
-        const status = `Next Player: ${this.props.player}`;
+        let status;
+        if (this.props.gameState === GameState.ON_GOING) {
+            status = `Next Player: ${this.props.player}`;
+        }
+
+        if (this.props.gameState === GameState.X_WON) {
+            status = "X wins"
+        }
+
+        if (this.props.gameState === GameState.O_WON) {
+            status = "O wins"
+        }
 
         return (
             <div>

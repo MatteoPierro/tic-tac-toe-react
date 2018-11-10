@@ -62,6 +62,19 @@ describe('Game', () => {
         expect(state).toBe(GameState.X_WON);
     });
 
+    it('should say that O wins when takes NW, NM, NE', () => {
+        takeSquare(Positions.SOUTH_WEST);
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.CENTER_WEST);
+        takeSquare(Positions.NORTH_MIDDLE);
+        takeSquare(Positions.CENTER_MIDDLE);
+        takeSquare(Positions.NORTH_EAST);
+
+        const state = game.state().state; 
+
+        expect(state).toBe(GameState.O_WON);
+    });
+
     it('should notify the player to the Board', () => {
         const board = game.find(Board);
 
@@ -83,6 +96,15 @@ describe('Game', () => {
         const board = game.find(Board);
 
         expect(board.props().squares).toBe(game.state().squares);
+    });
+
+    it('should create a Board with a game status', () => {
+        game.state().state = GameState.O_WON;
+        game.instance().forceUpdate();
+
+        const board = game.find(Board);
+
+        expect(board.props().gameState).toBe(GameState.O_WON);
     });
 
     function takeSquare(position) {

@@ -64,6 +64,7 @@ export default class Game extends React.Component {
                 <div className="game-board">
                     <Board
                         player={this.state.currentPlayer}
+                        gameState={this.state.state}
                         squares={this.state.squares}
                         onSquareTaken={this.takeSquare.bind(this)}
                     />
