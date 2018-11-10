@@ -15,17 +15,13 @@ export default class Game extends React.Component {
     }
 
     takeSquare(position) {
-        if (this.state.state === GameState.X_WON || this.state.state === GameState.O_WON) return;
+        if (this.hasBeenWon()) return;
         if (this.isPositionOccupied(position)) return;
         
-        const squares = this.state.squares;
-        this.occupyPosition(squares, position);
-        const newState = this.nextState(squares);
-
+        this.occupyPosition(position);
+        this.updateGameState();
         this.setState({
-            currentPlayer: this.nextPlayer(newState),
-            state: newState,
-            squares: squares
+            currentPlayer: this.nextPlayer()
         });
     }
 
@@ -33,19 +29,33 @@ export default class Game extends React.Component {
         return this.state.squares[position] !== "";
     }
 
-    occupyPosition(squares, position) {
+    occupyPosition(position) {
+        const squares = this.state.squares;
         squares[position] = this.state.currentPlayer;
+        this.setState({
+            squares: squares
+        });
     }
 
-    nextPlayer(newState) {
-        if (newState === GameState.X_WON || newState === GameState.O_WON) return this.state.currentPlayer;
+    nextPlayer() {
+        if (this.hasBeenWon()) return this.state.currentPlayer;
         return this.state.currentPlayer === 'X'
             ? 'O'
             : 'X';
     }
 
-    nextState(squares) {
-        if (this.hasPlayerWon(squares)) {
+    hasBeenWon() {
+        return [GameState.X_WON, GameState.O_WON].includes(this.state.state);
+    }
+
+    updateGameState() {
+        this.setState({
+            state: this.nextState()
+        });
+    }
+
+    nextState() {
+        if (this.hasPlayerWon(this.state.squares)) {
             return this.state.currentPlayer === 'X'
                     ? GameState.X_WON
                     : GameState.O_WON;
