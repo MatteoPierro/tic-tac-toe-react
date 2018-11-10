@@ -6,18 +6,22 @@ export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPlayer: 'X'
+            currentPlayer: 'X',
+            squares: Array(9).fill("")
         };
     }
 
-    takeSquare() {
+    takeSquare(position) {
+        const squares = this.state.squares;
+        squares[position] = this.state.currentPlayer;
         this.setState({
-            currentPlayer: this.nextPlayer()
+            currentPlayer: this.nextPlayer(),
+            squares: squares
         });
     }
 
     nextPlayer() {
-        return this.state.currentPlayer == 'X'
+        return this.state.currentPlayer === 'X'
             ? 'O'
             : 'X';
     }
@@ -27,7 +31,8 @@ export default class Game extends React.Component {
             <div className="game">
                 <div className="game-board">
                     <Board 
-                        player={this.state.currentPlayer} 
+                        player={this.state.currentPlayer}
+                        squares={this.state.squares}
                         onSquareTaken={this.takeSquare.bind(this)}
                     />
                 </div>
