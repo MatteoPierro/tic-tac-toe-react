@@ -11,19 +11,22 @@ export default class Game extends React.Component {
     }
 
     takeSquare() {
-        const currentPlayer = this.state.currentPlayer;
         this.setState({
-            currentPlayer: currentPlayer == 'X'
-                            ? 'O'
-                            : 'X'
+            currentPlayer: this.nextPlayer()
         });
+    }
+
+    nextPlayer() {
+        return this.state.currentPlayer == 'X'
+            ? 'O'
+            : 'X';
     }
 
     render() {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board player={this.state.currentPlayer}/>
+                    <Board player={this.state.currentPlayer} />
                 </div>
             </div>
         );
