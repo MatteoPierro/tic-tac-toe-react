@@ -15,33 +15,47 @@ export default class Game extends React.Component {
     }
 
     takeSquare(position) {
+        if (this.isPositionOccupied(position)) return;
+        
         const squares = this.state.squares;
-        if (squares[position] !== "") {
-            return;
-        }
-        const currentPlayer = this.state.currentPlayer; 
-        squares[position] = currentPlayer;
-        const winningCombination = [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST];
-        const playerWon = winningCombination.every((position) => {
-            return squares[position] === this.state.currentPlayer;
-        });
-        let state = GameState.ON_GOING;
-        if (playerWon) {
-            state = currentPlayer === 'X'
-                    ? GameState.X_WON
-                    : GameState.O_WON;
-        }
+        this.occupyPosition(squares, position);
+        
         this.setState({
             currentPlayer: this.nextPlayer(),
-            state: state,
+            state: this.nextState(squares),
             squares: squares
         });
+    }
+
+    isPositionOccupied(position) {
+        return this.state.squares[position] !== "";
+    }
+
+    occupyPosition(squares, position) {
+        squares[position] = this.state.currentPlayer;
     }
 
     nextPlayer() {
         return this.state.currentPlayer === 'X'
             ? 'O'
             : 'X';
+    }
+
+    nextState(squares) {
+        if (this.hasPlayerWon(squares)) {
+            return this.state.currentPlayer === 'X'
+                    ? GameState.X_WON
+                    : GameState.O_WON;
+        }
+
+        return GameState.ON_GOING;
+    }
+
+    hasPlayerWon(squares) {
+        const winningCombination = [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST];
+        return winningCombination.every((position) => {
+            return squares[position] === this.state.currentPlayer;
+        });
     }
 
     render() {
