@@ -15,14 +15,16 @@ export default class Game extends React.Component {
     }
 
     takeSquare(position) {
+        if (this.state.state === GameState.X_WON || this.state.state === GameState.O_WON) return;
         if (this.isPositionOccupied(position)) return;
         
         const squares = this.state.squares;
         this.occupyPosition(squares, position);
-        
+        const newState = this.nextState(squares);
+
         this.setState({
-            currentPlayer: this.nextPlayer(),
-            state: this.nextState(squares),
+            currentPlayer: this.nextPlayer(newState),
+            state: newState,
             squares: squares
         });
     }
@@ -35,7 +37,8 @@ export default class Game extends React.Component {
         squares[position] = this.state.currentPlayer;
     }
 
-    nextPlayer() {
+    nextPlayer(newState) {
+        if (newState === GameState.X_WON || newState === GameState.O_WON) return this.state.currentPlayer;
         return this.state.currentPlayer === 'X'
             ? 'O'
             : 'X';

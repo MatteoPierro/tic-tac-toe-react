@@ -75,6 +75,21 @@ describe('Game', () => {
         expect(state).toBe(GameState.O_WON);
     });
 
+    it('should not allow to play when the game is won', () => {
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.CENTER_WEST);
+        takeSquare(Positions.NORTH_MIDDLE);
+        takeSquare(Positions.CENTER_MIDDLE);
+        takeSquare(Positions.NORTH_EAST);
+        takeSquare(Positions.SOUTH_EAST);
+
+        const state = game.state(); 
+
+        expect(state.state).toBe(GameState.X_WON);
+        expect(state.squares[Positions.SOUTH_EAST]).toBe('');
+        expect(state.currentPlayer).toBe('X');
+    });
+
     it('should notify the player to the Board', () => {
         const board = game.find(Board);
 
