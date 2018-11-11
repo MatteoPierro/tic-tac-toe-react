@@ -46,6 +46,15 @@ describe('Board', () => {
         expect(status.text()).toBe('O wins');
     });
 
+    it('should show a message when draw', () => {
+        const board = shallow(<Board
+            gameState={GameState.DRAW}
+            squares={[]} />);
+
+        const status = board.find('.status');
+        expect(status.text()).toBe('DRAW');
+    });
+
     it('should create Squares which handle the click on them', () => {
         const square = board.find(Square).first();
 

@@ -84,6 +84,8 @@ function nextGameState(state) {
             ? GameState.X_WON
             : GameState.O_WON;
     }
+    const isDraw = state.squares.every((square) => square !== '');
+    if (isDraw) return GameState.DRAW;
 
     return GameState.ON_GOING;
 }

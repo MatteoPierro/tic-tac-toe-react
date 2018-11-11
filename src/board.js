@@ -17,14 +17,12 @@ export default class Board extends React.Component {
         let status;
         if (this.props.gameState === GameState.ON_GOING) {
             status = `Next Player: ${this.props.player}`;
-        }
-
-        if (this.props.gameState === GameState.X_WON) {
+        } else if (this.props.gameState === GameState.X_WON) {
             status = "X wins"
-        }
-
-        if (this.props.gameState === GameState.O_WON) {
+        } else if (this.props.gameState === GameState.O_WON) {
             status = "O wins"
+        } else if (this.props.gameState === GameState.DRAW) {
+            status = "DRAW"
         }
 
         return (

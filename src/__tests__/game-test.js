@@ -146,6 +146,22 @@ describe('Game', () => {
         expect(state).toBe(GameState.X_WON);
     });
 
+    it('should say that X wins on last move', () => {
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.CENTER_WEST);
+        takeSquare(Positions.CENTER_MIDDLE);
+        takeSquare(Positions.NORTH_MIDDLE);
+        takeSquare(Positions.SOUTH_WEST);
+        takeSquare(Positions.SOUTH_MIDDLE);
+        takeSquare(Positions.CENTER_EAST);
+        takeSquare(Positions.NORTH_EAST);
+        takeSquare(Positions.SOUTH_EAST);
+
+        const state = game.state().state;
+
+        expect(state).toBe(GameState.X_WON);
+    });
+
     it('should say that O wins when takes NW, NM, NE', () => {
         takeSquare(Positions.SOUTH_WEST);
         takeSquare(Positions.NORTH_WEST);
@@ -157,6 +173,22 @@ describe('Game', () => {
         const state = game.state().state; 
 
         expect(state).toBe(GameState.O_WON);
+    });
+
+    it('should recognise a draw', () => {
+        takeSquare(Positions.SOUTH_WEST);
+        takeSquare(Positions.NORTH_WEST);
+        takeSquare(Positions.NORTH_MIDDLE);
+        takeSquare(Positions.CENTER_WEST);
+        takeSquare(Positions.CENTER_MIDDLE);
+        takeSquare(Positions.NORTH_EAST);
+        takeSquare(Positions.SOUTH_EAST);
+        takeSquare(Positions.SOUTH_MIDDLE);
+        takeSquare(Positions.CENTER_EAST);
+        
+        const state = game.state().state; 
+
+        expect(state).toBe(GameState.DRAW);
     });
 
     it('should not allow to play when the game is won', () => {
