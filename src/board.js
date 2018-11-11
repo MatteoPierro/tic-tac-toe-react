@@ -14,20 +14,11 @@ export default class Board extends React.Component {
     }
 
     render() {
-        let status;
-        if (this.props.gameState === GameState.ON_GOING) {
-            status = `Next Player: ${this.props.player}`;
-        } else if (this.props.gameState === GameState.X_WON) {
-            status = "X wins"
-        } else if (this.props.gameState === GameState.O_WON) {
-            status = "O wins"
-        } else if (this.props.gameState === GameState.DRAW) {
-            status = "DRAW"
-        }
-
         return (
             <div>
-                <div id="status" className="status">{status}</div>
+                <div id="status" className="status">
+                    {gameStatusMessage(this.props)}
+                </div>
                 <div className="board-row">
                     {this.addSquare(Positions.NORTH_WEST)}
                     {this.addSquare(Positions.NORTH_MIDDLE)}
@@ -46,4 +37,22 @@ export default class Board extends React.Component {
             </div>
         );
     }
+}
+
+function gameStatusMessage(props) {
+    switch (props.gameState) {
+        case GameState.DRAW:
+            return "DRAW";
+        case GameState.X_WON:
+        case GameState.O_WON:
+            return `${winningPlayer(props.gameState)} wins`;
+        default:
+            return `Next Player: ${props.player}`;
+    }
+}
+
+function winningPlayer(gameState) {
+    return gameState === GameState.X_WON
+        ? "X"
+        : "O";
 }
