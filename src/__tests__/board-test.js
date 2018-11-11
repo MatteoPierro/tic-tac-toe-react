@@ -3,10 +3,8 @@ import Board from '../board';
 import Position from '../positions';
 import GameState from '../gameState';
 import Square from '../square';
-import enzyme, {shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import positions from '../positions';
-enzyme.configure({ adapter: new Adapter() });
+import {shallow} from 'enzyme';
 
 describe('Board', () => {
     let board;

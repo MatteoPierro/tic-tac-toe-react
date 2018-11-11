@@ -1,9 +1,7 @@
 import React from 'react';
 import Square from '../square';
 import Positions from '../positions';
-import enzyme, {shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-enzyme.configure({ adapter: new Adapter() });
+import {shallow} from 'enzyme';
 
 describe('Square', () => {
     it('should call onClick when square is clicked', () => {
