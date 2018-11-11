@@ -36,7 +36,6 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
 
         const squares = game.state().squares;
-
         expect(squares[Positions.NORTH_WEST]).toBe('X');
         expect(squares[Positions.NORTH_MIDDLE]).toBe('O');
     });
@@ -46,7 +45,6 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_WEST);
 
         const squares = game.state().squares;
-
         expect(squares[Positions.NORTH_WEST]).toBe('X');
     });
 
@@ -57,9 +55,7 @@ describe('Game', () => {
         takeSquare(Positions.CENTER_MIDDLE);
         takeSquare(Positions.NORTH_EAST);
 
-        const state = game.state().state; 
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes CW, CM, CE', () => {
@@ -69,9 +65,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
         takeSquare(Positions.CENTER_EAST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes SW, SM, SE', () => {
@@ -81,9 +75,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
         takeSquare(Positions.SOUTH_EAST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes NW, CW, SW', () => {
@@ -93,9 +85,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
         takeSquare(Positions.SOUTH_WEST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes NE, CE, SE', () => {
@@ -105,9 +95,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
         takeSquare(Positions.SOUTH_EAST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes NM, CM, SM', () => {
@@ -117,9 +105,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_WEST);
         takeSquare(Positions.SOUTH_MIDDLE);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes NW, CM, SE', () => {
@@ -129,9 +115,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
         takeSquare(Positions.SOUTH_EAST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins when takes NE, CM, SW', () => {
@@ -141,9 +125,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_MIDDLE);
         takeSquare(Positions.SOUTH_WEST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that X wins on last move', () => {
@@ -157,9 +139,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_EAST);
         takeSquare(Positions.SOUTH_EAST);
 
-        const state = game.state().state;
-
-        expect(state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
     });
 
     it('should say that O wins when takes NW, NM, NE', () => {
@@ -170,9 +150,7 @@ describe('Game', () => {
         takeSquare(Positions.CENTER_MIDDLE);
         takeSquare(Positions.NORTH_EAST);
 
-        const state = game.state().state; 
-
-        expect(state).toBe(GameState.O_WON);
+        assertGameState(GameState.O_WON);
     });
 
     it('should recognise a draw', () => {
@@ -186,9 +164,7 @@ describe('Game', () => {
         takeSquare(Positions.SOUTH_MIDDLE);
         takeSquare(Positions.CENTER_EAST);
         
-        const state = game.state().state; 
-
-        expect(state).toBe(GameState.DRAW);
+        assertGameState(GameState.DRAW);
     });
 
     it('should not allow to play when the game is won', () => {
@@ -200,15 +176,13 @@ describe('Game', () => {
         takeSquare(Positions.SOUTH_EAST);
 
         const state = game.state(); 
-
-        expect(state.state).toBe(GameState.X_WON);
+        assertGameState(GameState.X_WON);
         expect(state.squares[Positions.SOUTH_EAST]).toBe('');
         expect(state.currentPlayer).toBe('X');
     });
 
     it('should notify the player to the Board', () => {
         const board = game.find(Board);
-
         expect(board.props().player).toBe('X')
     });
 
@@ -225,7 +199,6 @@ describe('Game', () => {
 
     it('should create a Board with squares', () => {
         const board = game.find(Board);
-
         expect(board.props().squares).toBe(game.state().squares);
     });
 
@@ -234,7 +207,6 @@ describe('Game', () => {
         game.instance().forceUpdate();
 
         const board = game.find(Board);
-
         expect(board.props().gameState).toBe(GameState.O_WON);
     });
 
@@ -244,6 +216,11 @@ describe('Game', () => {
 
     function assertCurrentPlayer(player) {
         expect(game.state().currentPlayer).toBe(player);
+    }
+
+    function assertGameState(expectedGameState) {
+        const state = game.state().state; 
+        expect(state).toBe(expectedGameState);
     }
 });
 

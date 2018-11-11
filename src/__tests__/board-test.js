@@ -23,47 +23,40 @@ describe('Board', () => {
     });
 
     it('should display the next player', () => {
-        const status = board.find('.status');
-
-        expect(status.text()).toBe('Next Player: X');
+        assertStatus('Next Player: X');
     });
 
     it('should show a message when X won', () => {
-        const board = shallow(<Board 
+        board = shallow(<Board 
             gameState={GameState.X_WON}
             squares={[]} />);
 
-        const status = board.find('.status');
-        expect(status.text()).toBe('X wins');
+        assertStatus('X wins');
     });
 
     it('should show a message when O won', () => {
-        const board = shallow(<Board 
+        board = shallow(<Board 
             gameState={GameState.O_WON}
             squares={[]} />);
 
-        const status = board.find('.status');
-        expect(status.text()).toBe('O wins');
+        assertStatus('O wins');
     });
 
     it('should show a message when draw', () => {
-        const board = shallow(<Board
+        board = shallow(<Board
             gameState={GameState.DRAW}
             squares={[]} />);
 
-        const status = board.find('.status');
-        expect(status.text()).toBe('DRAW');
+        assertStatus('DRAW');
     });
 
     it('should create Squares which handle the click on them', () => {
         const square = board.find(Square).first();
-
         expect(square.props().onClick).toBe(onSquareTaken);
     });
 
     it('should create Squares with position', () => {
         const square = board.find(Square).first();
-
         expect(square.props().position).toBe(Position.NORTH_WEST);
     });
 
@@ -75,4 +68,9 @@ describe('Board', () => {
         const square = board.find(Square).first();
         expect(square.props().owner).toBe(player);
     });
+
+    function assertStatus(expectedStatus) {
+        const status = board.find('.status');
+        expect(status.text()).toBe(expectedStatus);
+    }
 });
