@@ -95,7 +95,8 @@ function hasPlayerWon(squares, currentPlayer) {
         [Positions.SOUTH_WEST, Positions.SOUTH_MIDDLE, Positions.SOUTH_EAST],
         [Positions.NORTH_WEST, Positions.CENTER_WEST, Positions.SOUTH_WEST],
         [Positions.NORTH_MIDDLE, Positions.CENTER_MIDDLE, Positions.SOUTH_MIDDLE],
-        [Positions.NORTH_EAST, Positions.CENTER_EAST, Positions.SOUTH_EAST]
+        [Positions.NORTH_EAST, Positions.CENTER_EAST, Positions.SOUTH_EAST],
+        [Positions.NORTH_WEST, Positions.CENTER_MIDDLE, Positions.SOUTH_EAST]
     ];
     return winningCombinations.some((winningCombination) => {
         return winningCombination.every((position) => {
