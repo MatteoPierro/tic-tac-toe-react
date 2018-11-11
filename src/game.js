@@ -15,76 +15,12 @@ export default class Game extends React.Component {
     }
 
     takeSquare(position) {
-        if (this.hasBeenWon(this.state.state)) return;
-        if (this.isPositionOccupied(position)) return;
+        if (hasBeenWon(this.state.state)) return;
+        if (isPositionOccupied(this.state.squares, position)) return;
 
-        this.occupyPosition(position);
-        this.updateGameState();
-        this.updateCurrentPlayer();
-    }
-
-    isPositionOccupied(position) {
-        return this.state.squares[position] !== "";
-    }
-
-    occupyPosition(position) {
-        this.setState((state) => {
-            const squares = state.squares;
-            squares[position] = state.currentPlayer;
-            return {
-                squares: squares
-            };
-        })
-    }
-
-    updateCurrentPlayer() {
-        this.setState( (state) => {
-            return {
-                currentPlayer: this.nextPlayer(state.currentPlayer, state.state)
-            };
-        });
-    }
-
-    nextPlayer(currentPlayer, gameState) {
-        if (this.hasBeenWon(gameState)) return currentPlayer;
-        return currentPlayer === 'X'
-            ? 'O'
-            : 'X';
-    }
-
-    hasBeenWon(gameState) {
-        return [GameState.X_WON, GameState.O_WON].includes(gameState);
-    }
-
-    updateGameState() {
-        this.setState((state) => {
-            return {
-                state: this.nextGameState(state)
-            }
-        });
-    }
-
-    nextGameState(state) {
-        if (this.hasPlayerWon(state.squares, state.currentPlayer)) {
-            return state.currentPlayer === 'X'
-                ? GameState.X_WON
-                : GameState.O_WON;
-        }
-
-        return GameState.ON_GOING;
-    }
-
-    hasPlayerWon(squares, currentPlayer) {
-        const winningCombinations = [
-            [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST],
-            [Positions.CENTER_WEST, Positions.CENTER_MIDDLE, Positions.CENTER_EAST],
-            [Positions.SOUTH_WEST, Positions.SOUTH_MIDDLE, Positions.SOUTH_EAST]
-        ];
-        return winningCombinations.some((winningCombination) => {
-            return winningCombination.every((position) => {
-                return squares[position] === currentPlayer;
-            });
-        });
+        this.setState(occupyPosition(position));
+        this.setState(updateGameState);
+        this.setState(updateCurrentPlayer);
     }
 
     render() {
@@ -101,4 +37,66 @@ export default class Game extends React.Component {
             </div>
         );
     }
+}
+
+function occupyPosition(position) {
+    return (state) => {
+        const squares = state.squares;
+        squares[position] = state.currentPlayer;
+        return {
+            squares: squares
+        };
+    };
+}
+
+function isPositionOccupied(squares, position) {
+    return squares[position] !== "";
+}
+
+function updateCurrentPlayer(state) {
+    const currentPlayer = state.currentPlayer;
+    const gameState = state.state;
+    return {
+        currentPlayer: nextPlayer(currentPlayer, gameState)
+    };
+}
+
+function nextPlayer(currentPlayer, gameState) {
+    if (hasBeenWon(gameState)) return currentPlayer;
+    return currentPlayer === 'X'
+        ? 'O'
+        : 'X';
+}
+
+function hasBeenWon(gameState) {
+    return [GameState.X_WON, GameState.O_WON].includes(gameState);
+}
+
+function updateGameState(previousState) {
+    return {
+        state: nextGameState(previousState)
+    }
+}
+
+function nextGameState(state) {
+    if (hasPlayerWon(state.squares, state.currentPlayer)) {
+        return state.currentPlayer === 'X'
+            ? GameState.X_WON
+            : GameState.O_WON;
+    }
+
+    return GameState.ON_GOING;
+}
+
+function hasPlayerWon(squares, currentPlayer) {
+    const winningCombinations = [
+        [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST],
+        [Positions.CENTER_WEST, Positions.CENTER_MIDDLE, Positions.CENTER_EAST],
+        [Positions.SOUTH_WEST, Positions.SOUTH_MIDDLE, Positions.SOUTH_EAST]
+    ];
+    return winningCombinations.some((winningCombination) => {
+        return winningCombination.every((position) => {
+            return squares[position] === currentPlayer;
+        });
+    });
 }
