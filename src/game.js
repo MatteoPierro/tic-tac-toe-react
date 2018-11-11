@@ -15,14 +15,12 @@ export default class Game extends React.Component {
     }
 
     takeSquare(position) {
-        if (this.hasBeenWon()) return;
+        if (this.hasBeenWon(this.state.state)) return;
         if (this.isPositionOccupied(position)) return;
-        
+
         this.occupyPosition(position);
         this.updateGameState();
-        this.setState({
-            currentPlayer: this.nextPlayer()
-        });
+        this.updateCurrentPlayer();
     }
 
     isPositionOccupied(position) {
@@ -30,44 +28,62 @@ export default class Game extends React.Component {
     }
 
     occupyPosition(position) {
-        const squares = this.state.squares;
-        squares[position] = this.state.currentPlayer;
-        this.setState({
-            squares: squares
+        this.setState((state) => {
+            const squares = state.squares;
+            squares[position] = state.currentPlayer;
+            return {
+                squares: squares
+            };
+        })
+    }
+
+    updateCurrentPlayer() {
+        this.setState( (state) => {
+            return {
+                currentPlayer: this.nextPlayer(state.currentPlayer, state.state)
+            };
         });
     }
 
-    nextPlayer() {
-        if (this.hasBeenWon()) return this.state.currentPlayer;
-        return this.state.currentPlayer === 'X'
+    nextPlayer(currentPlayer, gameState) {
+        if (this.hasBeenWon(gameState)) return currentPlayer;
+        return currentPlayer === 'X'
             ? 'O'
             : 'X';
     }
 
-    hasBeenWon() {
-        return [GameState.X_WON, GameState.O_WON].includes(this.state.state);
+    hasBeenWon(gameState) {
+        return [GameState.X_WON, GameState.O_WON].includes(gameState);
     }
 
     updateGameState() {
-        this.setState({
-            state: this.nextState()
+        this.setState((state) => {
+            return {
+                state: this.nextGameState(state)
+            }
         });
     }
 
-    nextState() {
-        if (this.hasPlayerWon(this.state.squares)) {
-            return this.state.currentPlayer === 'X'
-                    ? GameState.X_WON
-                    : GameState.O_WON;
+    nextGameState(state) {
+        if (this.hasPlayerWon(state.squares, state.currentPlayer)) {
+            return state.currentPlayer === 'X'
+                ? GameState.X_WON
+                : GameState.O_WON;
         }
 
         return GameState.ON_GOING;
     }
 
-    hasPlayerWon(squares) {
-        const winningCombination = [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST];
-        return winningCombination.every((position) => {
-            return squares[position] === this.state.currentPlayer;
+    hasPlayerWon(squares, currentPlayer) {
+        const winningCombinations = [
+            [Positions.NORTH_WEST, Positions.NORTH_MIDDLE, Positions.NORTH_EAST],
+            [Positions.CENTER_WEST, Positions.CENTER_MIDDLE, Positions.CENTER_EAST],
+            [Positions.SOUTH_WEST, Positions.SOUTH_MIDDLE, Positions.SOUTH_EAST]
+        ];
+        return winningCombinations.some((winningCombination) => {
+            return winningCombination.every((position) => {
+                return squares[position] === currentPlayer;
+            });
         });
     }
 
