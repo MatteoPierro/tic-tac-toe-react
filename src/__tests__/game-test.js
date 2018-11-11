@@ -134,6 +134,18 @@ describe('Game', () => {
         expect(state).toBe(GameState.X_WON);
     });
 
+    it('should say that X wins when takes NE, CM, SW', () => {
+        takeSquare(Positions.NORTH_EAST);
+        takeSquare(Positions.SOUTH_EAST);
+        takeSquare(Positions.CENTER_MIDDLE);
+        takeSquare(Positions.NORTH_MIDDLE);
+        takeSquare(Positions.SOUTH_WEST);
+
+        const state = game.state().state;
+
+        expect(state).toBe(GameState.X_WON);
+    });
+
     it('should say that O wins when takes NW, NM, NE', () => {
         takeSquare(Positions.SOUTH_WEST);
         takeSquare(Positions.NORTH_WEST);
