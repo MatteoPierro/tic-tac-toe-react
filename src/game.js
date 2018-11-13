@@ -1,30 +1,31 @@
 import React from 'react';
 import './index.css';
 import Board from './board';
-import GameStatus from './gameStatus';
+import GameModel from './gameModel';
 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            gameStatus: new GameStatus()
+            model: new GameModel()
         };
     }
 
     takeSquare(position) {
         this.setState({
-            gameStatus: this.state.gameStatus.takeSquare(position)
+            model: this.state.model.takeSquare(position)
         })
     }
 
     render() {
+        const model = this.state.model;
         return (
             <div className="game">
                 <div className="game-board">
                     <Board
-                        player={this.state.gameStatus.currentPlayer}
-                        gameState={this.state.gameStatus.gameState}
-                        squares={this.state.gameStatus.squares}
+                        player={model.currentPlayer}
+                        gameState={model.gameState}
+                        squares={model.squares}
                         onSquareTaken={this.takeSquare.bind(this)}
                     />
                 </div>

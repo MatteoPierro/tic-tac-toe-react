@@ -1,7 +1,7 @@
 import GameState from './gameState'
 import Positions from './positions'
 
-export default class GameStatus {
+export default class GameModel {
     constructor(currentPlayer, gameState, squares) {
         this.currentPlayer = currentPlayer || 'X';
         this.gameState = gameState || GameState.ON_GOING;
@@ -15,11 +15,11 @@ export default class GameStatus {
         const squares = occupyPosition(position, this.squares, this.currentPlayer);
         const gameState = nextGameState(squares, this.currentPlayer);
 
-        return new GameStatus(
+        return new GameModel(
             nextPlayer(gameState, this.currentPlayer),
             gameState,
             squares
-        )
+        );
     }
 }
 
