@@ -33,7 +33,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_WEST);
         takeSquare(Positions.NORTH_MIDDLE);
 
-        const squares = game.state().squares;
+        const squares = game.state().gameStatus.squares;
         expect(squares[Positions.NORTH_WEST]).toBe('X');
         expect(squares[Positions.NORTH_MIDDLE]).toBe('O');
     });
@@ -42,7 +42,7 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_WEST);
         takeSquare(Positions.NORTH_WEST);
 
-        const squares = game.state().squares;
+        const squares = game.state().gameStatus.squares;
         expect(squares[Positions.NORTH_WEST]).toBe('X');
     });
 
@@ -173,10 +173,10 @@ describe('Game', () => {
         takeSquare(Positions.NORTH_EAST);
         takeSquare(Positions.SOUTH_EAST);
 
-        const state = game.state(); 
+        const gameStatus = game.state().gameStatus; 
         assertGameState(GameState.X_WON);
-        expect(state.squares[Positions.SOUTH_EAST]).toBe('');
-        expect(state.currentPlayer).toBe('X');
+        expect(gameStatus.squares[Positions.SOUTH_EAST]).toBe('');
+        expect(gameStatus.currentPlayer).toBe('X');
     });
 
     it('should notify the player to the Board', () => {
@@ -197,11 +197,11 @@ describe('Game', () => {
 
     it('should create a Board with squares', () => {
         const board = game.find(Board);
-        expect(board.props().squares).toBe(game.state().squares);
+        expect(board.props().squares).toBe(game.state().gameStatus.squares);
     });
 
     it('should create a Board with a game status', () => {
-        game.state().state = GameState.O_WON;
+        game.state().gameStatus.gameState = GameState.O_WON;
         game.instance().forceUpdate();
 
         const board = game.find(Board);
@@ -213,11 +213,11 @@ describe('Game', () => {
     }
 
     function assertCurrentPlayer(player) {
-        expect(game.state().currentPlayer).toBe(player);
+        expect(game.state().gameStatus.currentPlayer).toBe(player);
     }
 
     function assertGameState(expectedGameState) {
-        const state = game.state().state; 
+        const state = game.state().gameStatus.gameState; 
         expect(state).toBe(expectedGameState);
     }
 });
